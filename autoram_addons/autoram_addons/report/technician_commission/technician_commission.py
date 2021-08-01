@@ -134,7 +134,7 @@ def get_data(filters):
 			}
 			data.append(tmp_row)
 			total_amount += item.amount
-			total_commission = item.technician_commission_amount
+			total_commission += item.technician_commission_amount
 		
 		idx+=1
 
