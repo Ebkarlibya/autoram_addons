@@ -67,25 +67,25 @@ frappe.query_reports["Technician Commission"] = {
 		{
 			fieldname:"si_paid",
 			default: true,
-			label: __("SI Paid"),
+			label: __("Paid"),
 			fieldtype: "Check"
 		},
 		{
 			fieldname:"si_unpaid",
 			default: false,
-			label: __("SI Unpaid"),
+			label: __("Unpaid"),
 			fieldtype: "Check"
 		},
 		{
 			fieldname:"si_overdue",
 			default: false,
-			label: __("SI Overdue"),
+			label: __("Overdue"),
 			fieldtype: "Check"
 		},
 		{
 			fieldname:"si_return",
 			default: false,
-			label: __("SI Return"),
+			label: __("Return"),
 			fieldtype: "Check"
 		}
 	],
@@ -93,7 +93,6 @@ frappe.query_reports["Technician Commission"] = {
 		rows = datatable_obj.getRows();
 		if(rows && rows.length > 0 ) {
 			last_row = rows[rows.length -1]
-			console.log(last_row)
 			last_row[1].content = "<b>Total:</b>";
 			last_row[9].content = "<b>" + last_row[9].content + "</b>";
 			last_row[11].content = "<b>" + last_row[11].content + "</b>";
