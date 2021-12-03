@@ -64,13 +64,37 @@ frappe.query_reports["Technician Commission"] = {
 			fieldtype: "Link",
 			options: "Currency"
 		},
+		{
+			fieldname:"si_paid",
+			default: true,
+			label: __("SI Paid"),
+			fieldtype: "Check"
+		},
+		{
+			fieldname:"si_unpaid",
+			default: false,
+			label: __("SI Unpaid"),
+			fieldtype: "Check"
+		},
+		{
+			fieldname:"si_overdue",
+			default: false,
+			label: __("SI Overdue"),
+			fieldtype: "Check"
+		},
+		{
+			fieldname:"si_return",
+			default: false,
+			label: __("SI Return"),
+			fieldtype: "Check"
+		}
 	],
 	after_datatable_render: function(datatable_obj) {
 		rows = datatable_obj.getRows();
 		if(rows && rows.length > 0 ) {
 			last_row = rows[rows.length -1]
-			console.log(last_row, datatable_obj)
-			last_row[1].content = "<b>Total</b>";
+			console.log(last_row)
+			last_row[1].content = "<b>Total:</b>";
 			last_row[9].content = "<b>" + last_row[9].content + "</b>";
 			last_row[11].content = "<b>" + last_row[11].content + "</b>";
 			datatable_obj.refreshRow(last_row);

@@ -92,11 +92,10 @@ def get_columns(filters):
 def get_data(filters):
 	tmp_row = {}
 	data = []
-	idx = 0
 	total_commission = 0
 	total_amount = 0
 	filters_dict = {"docstatus": "1"}
-
+	multi_status_filter = ()
 	si_orm = None
 
 	if(filters.get("from_date")):
@@ -107,13 +106,27 @@ def get_data(filters):
 
 	if(filters.get("currency")):
 		filters_dict["currency"] = filters.get("currency")
-
-	si_list = frappe.get_all("Sales Invoice", fields=["name", "currency"], filters=filters_dict)
 	
-	while(idx < len(si_list)):
-		# get si orm for each si list item
-		si_orm = frappe.get_doc("Sales Invoice", si_list[idx].name)
+	if(filters.get("si_paid")):
+		multi_status_filter += ("Paid",)
 
+	if(filters.get("si_unpaid")):
+		multi_status_filter += ("Unpaid",)
+
+	if(filters.get("si_overdue")):
+		multi_status_filter += ("Overdue",)
+
+	if(filters.get("si_return")):
+		multi_status_filter += ("Return",)
+
+	filters_dict["status"] = ["in", multi_status_filter]
+
+	si_list = frappe.get_all("Sales Invoice", fields=["name", "currency", "status"], filters=filters_dict)
+	
+	for si in si_list:
+		# get si orm for each si list item
+		si_orm = frappe.get_doc("Sales Invoice", si.name)
+			
 		for item in si_orm.items:
 			if item.technician != filters.technician \
 				or (filters.item and filters.item != item.item_code) \
@@ -123,7 +136,7 @@ def get_data(filters):
 				"technician_name": item.technician_name,
 				"invoice_name": si_orm.name,
 				"invoice_status": si_orm.status,
-				"invoice_currency": si_list[idx].currency,
+				"invoice_currency": si.currency,
 				"item_name": item.item_name,
 				"item_group": item.item_group,
 				"item_uom": item.uom,
@@ -134,14 +147,12 @@ def get_data(filters):
 			}
 			data.append(tmp_row)
 			total_amount += item.amount
-			total_commission += item.technician_commission_amount
+			total_commission += int(item.technician_commission_amount)
 		
-		idx+=1
-
 	# calculate totals
 	if (len(data) >= 1):
 		totals = {
-				"technician_name": "Total",
+				"technician_name": "Total:",
 				"amount": frappe.format_value(total_amount, "Currency"),
 				"commission": frappe.format_value(total_commission, "Currency"),
 		}
