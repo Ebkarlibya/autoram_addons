@@ -18,10 +18,10 @@
  "report_type": "Script Report",
  "roles": [
   {
-   "role": "Accounts Manager"
+   "role": "Stock Manager"
   },
   {
-   "role": "Accounts User"
+   "role": "Stock User"
   }
  ]
 }
