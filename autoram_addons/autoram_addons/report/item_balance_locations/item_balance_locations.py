@@ -70,14 +70,14 @@ def get_data(filters):
 	sql_filter = ""
 
 	if(filters.get("item")):
-		sql_filter += f"""where a.item_code = "{filters.get("item")}" """
+		sql_filter += f"""where a.item_code = {frappe.db.escape(filters.get("item"))} """
 
 	if(filters.get("warehouse")):
-		sql_filter += f"""where c.warehouse = "{filters.get("warehouse")}" """
+		sql_filter += f"""where c.warehouse = {frappe.db.escape(filters.get("warehouse"))} """
 
 	if(filters.get("item") and filters.get("warehouse")):
 		sql_filter = ""
-		sql_filter += f"""where a.item_code = "{filters.get("item")}" and c.warehouse = "{filters.get("warehouse")}" """
+		sql_filter += f"""where a.item_code = {filters.get("item")} and c.warehouse = {frappe.db.escape(filters.get("warehouse"))} """
 
 	sql_list = frappe.db.sql(f"""
 		select a.*, c.warehouse, c.actual_qty

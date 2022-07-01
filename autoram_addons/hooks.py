@@ -127,3 +127,11 @@ doctype_list_js = {"Item" : "autoram_addons/custom_scripts/item_list.js"}
 # 	"Task": "autoram_addons.task.get_dashboard_data"
 # }
 
+# fixtures = [
+#     {
+#         "doctype": "Workspace",
+#         "filters": [
+#             ["name", "in", ("Accounting")]
+#         ]
+#     }
+# ]

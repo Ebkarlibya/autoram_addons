@@ -74,7 +74,9 @@ frappe.listview_settings['Item'] = {
             });
         d.show();
     });
-        document.querySelector(".active-tag-filters").appendChild(cbtn)
+        setTimeout(function(){
+            document.querySelector(".custom-btn-group").appendChild(cbtn)
+        }, 1000);
     },
 	get_indicator: function(doc) {
 		if (doc.disabled) {
